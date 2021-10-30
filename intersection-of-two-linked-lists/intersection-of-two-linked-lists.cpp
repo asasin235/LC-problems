@@ -8,35 +8,42 @@
  */
 class Solution {
 public:
+    int lenght(ListNode *head){
+        int len = 0;
+
+	ListNode* temp = head;
+
+	while(temp!=NULL){
+		len++;
+		temp = temp->next;
+	}
+
+	return len;
+    }
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-        ListNode *p1=headA;
-        ListNode *p2=headB;
-        int len1=0,len2=0;
+        int lenA=lenght(headA);
+        int lenB=lenght(headB);
+        cout<<lenA<<" "<<lenB<<endl;
         
-        ListNode * len=headA;
-        while(len!=NULL){
-            len1++;
-            len=len->next;
-            
-        }
-        len=headB;
-         while(len!=NULL){
-            len2++;
-            len=len->next;
-            
-        }
-        int diff=abs(len1-len2);
+        int diff=lenB-lenA;
+        if(diff>0)
+            return helper(diff,headB,headA);
+        else
+            return helper(diff*-1,headA,headB);
         
-        if(len1>len2){
-            for(int i=0;i<diff;i++){
-                p1=p1->next;
-            }
-        }else{
-            for(int i=0;i<diff;i++){
-                p2=p2->next;
-            }
+        
+        
+    }
+    
+    ListNode * helper(int diff,ListNode * longer,ListNode *shorter){
+        ListNode *p1=longer,*p2=shorter;
+        cout<<diff<<endl;
+        for(int i=0;i<diff;i++){
+            p1=p1->next;
         }
+        cout<<p1->val<<endl;
         while(p1!=NULL and p2!=NULL){
+            cout<<p1->val<<" "<<p2->val<<endl;
             if(p1==p2){
                 return p2;
             }
