@@ -1,36 +1,37 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        //Create a new vector with pairs instead of just values.
-        vector<pair<int, int>> pairs;
         
-        for (int index = 0; index < nums.size(); index++){
-            pairs.push_back({nums[index], index});
+//         {4,3,2,1}
+        
+//         4->0
+//         3->1
+//         2->2
+//         1->3
+        
+//        v= [{4,0},{3,1},{2,2},{1,3}]
+//         [{1,3},{2,2},{3,1},{4,0}]
+
+        vector<pair<int,int>> v;
+        for(int i=0;i<nums.size();i++){
+            v.push_back({nums[i],i});
+        }
+        sort(v.begin(),v.end());
+        int l=0,r=nums.size()-1;
+        while(l<r){
+            if(v[l].first +v[r].first==target){
+                return {v[l].second,v[r].second};
+            }
+            else if(v[l].first +v[r].first>target){
+                r--;
+                
+            }else{
+                l++;
+            }
         }
         
-        //Sort the vector.
-        sort(pairs.begin(), pairs.end());
-        
-        //Initialise left & right pointers.
-        int left = 0;
-        int right = nums.size()-1;
-        
-        //While left < right.
-        while(left < right){
-            //If the total of nums[left] and nums[right] == target return left and right
-            if (pairs[left].first + pairs[right].first == target){
-                return {pairs[right].second, pairs[left].second};
-            }
-            //If the total of nums[left] and nums[right] < target left++ to make total bigger.
-            if (pairs[left].first + pairs[right].first < target){
-                left++;
-            }
-            //If the total of nums[left] and nums[right] > target right-- to make total smaller.
-            else{
-                right--;
-            }
-        }
-        //If there is no solution return an empty array.
         return {};
-    }   
+        
+        
+    }
 };
