@@ -1,38 +1,30 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
- *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
- * };
- */
 class Solution {
 public:
-    vector<vector<int>> possiblePath;
-    void helper(TreeNode * root,vector<int> ans){
-        if(!root)
-            return ;
-         ans.push_back(root->val);
-        if(!root->left and !root->right){
-           possiblePath.push_back(ans);
-            return ;
+    
+    void findPath(TreeNode *root, int sum, int target , vector<vector<int>> &res, vector<int> &temp){
+        
+        if(!root) return;
+        
+        temp.push_back(root->val);
+        sum += root->val;
+        
+        if(root->left==NULL and root->right==NULL and target==sum){
+            res.push_back(temp);
         }
-        helper(root->left,ans);
-        helper(root->right,ans);
+        
+        findPath(root->left,sum,target,res,temp);
+        findPath(root->right,sum,target,res,temp);
+        
+        temp.pop_back();
+        sum -= root->val;
         
     }
-    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
-        vector<int> ans;
-        helper(root,ans);
-        vector<vector<int>> answer;
-        for(auto i :possiblePath){
-            if(accumulate(i.begin(),i.end(),0)==targetSum)
-                answer.push_back(i);
-        }
-        return answer;
+    
+    vector<vector<int>> pathSum(TreeNode* root, int target) {
         
+        vector<vector<int>>res;
+        vector<int>temp;
+        findPath(root,0,target,res,temp);
+        return res;
     }
 };
