@@ -11,28 +11,18 @@
  */
 class Solution {
 public:
-    void helper(TreeNode * root,string num,vector<string> & numbers){
-        if(!root)
-            return ;
-        num.push_back((root->val)+'0');
-        if(!root->left and !root->right){
-            numbers.push_back(num);
-            return ;
-        }
-        helper(root->left,num,numbers);
-        helper(root->right,num,numbers);
-        
-    }
     int sumNumbers(TreeNode* root) {
-        string num;
-        vector<string> numbers;
-        helper(root,num,numbers);
-        int sum=0;
-        for(string number : numbers){
-            int n=stoi(number);
-            sum+=n;
-            
-        }
-        return sum;
+        return sumH(root,0);
+    }
+    
+    int sumH(TreeNode* root,int curr){
+        if(root==NULL) return 0;
+
+        int sumTillHere = curr*10 + root->val;
+        if(root->left==NULL && root->right==NULL)
+            return sumTillHere;
+
+        return sumH(root->left,sumTillHere) + sumH(root->right,sumTillHere);
+
     }
 };
